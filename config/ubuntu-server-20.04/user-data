@@ -1,0 +1,32 @@
+#cloud-config
+
+# Documenation: https://ubuntu.com/server/docs/install/autoinstall-reference
+autoinstall:
+
+  version: 1
+  locale: en_US.UTF-8
+
+  keyboard:
+    layout: en
+    variant: us
+
+  storage:
+    layout:
+      name: lvm
+    swap:
+      size: 0
+
+  identity:
+    hostname: ubuntu2004
+    username: administrator
+    password: "$6$jm10pnen6vMd8$hcqkJQMnmUHfS4QK5XlSN/OpCMlsqUaWENry.R2NMB8LLbxCM8G71vdLTe1MdWogW6E79FpFJ4vFTBasI4mSz/"
+
+  ssh:
+    install-server: yes
+    allow-pw: yes
+
+  user-data:
+    disable_root: true
+
+  late-commands:
+    - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
