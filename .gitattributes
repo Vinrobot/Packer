@@ -1,0 +1,11 @@
+# Handle line endings automatically for files detected as text
+# and leave all files detected as binary untouched.
+* text=auto
+
+# These files are binary and should be left untouched.
+# Otherwise, Windows Setup might fail with the following message:
+# "Windows Setup could not install one or more boot-critical drivers."
+*.cat binary
+*.inf binary
+*.sys binary
+*.oem binary
