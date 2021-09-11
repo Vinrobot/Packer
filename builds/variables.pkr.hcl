@@ -78,6 +78,10 @@ variable "vm_version" {
   type    = number
   default = 17
 }
+variable "vm_template" {
+  type    = string
+  default = null
+}
 variable "vm_name" {
   type = string
 }
@@ -118,10 +122,12 @@ variable "disk_size" {
 }
 
 variable "boot_wait" {
-  type = string
+  type    = string
+  default = "5s"
 }
 variable "boot_command" {
-  type = list(string)
+  type    = list(string)
+  default = []
 }
 variable "boot_order" {
   type    = string
@@ -129,7 +135,8 @@ variable "boot_order" {
 }
 
 variable "guest_os_type" {
-  type = string
+  type    = string
+  default = "otherGuest"
 }
 
 variable "ip_wait_timeout" {
@@ -138,10 +145,12 @@ variable "ip_wait_timeout" {
 }
 
 variable "iso_installer" {
-  type = string
+  type    = string
+  default = null
 }
 variable "iso_vmtools" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "config_files" {
