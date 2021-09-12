@@ -13,9 +13,7 @@ boot_command = [
   "<wait15s>",
   " autoinstall ds=nocloud-net;",
   "seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
-  "<enter><wait>",
-  # Wait 8 minute to delay the first SSH connection
-  "<wait8m>"
+  "<enter><wait>"
 ]
 
 iso_installer = "[VRDS00] /ISO/Ubuntu/ubuntu-20.04.2-live-server-amd64.iso"

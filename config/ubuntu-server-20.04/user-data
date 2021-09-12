@@ -28,5 +28,8 @@ autoinstall:
   user-data:
     disable_root: true
 
+  early-commands:
+    - systemctl stop ssh
+
   late-commands:
     - 'sed -i "s/dhcp4: true/&\n      dhcp-identifier: mac/" /target/etc/netplan/00-installer-config.yaml'
