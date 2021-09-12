@@ -1,16 +1,17 @@
 source "vsphere-iso" "windows-server-2019-desktop" {
   # Boot/Run Configuration
-  boot_wait    = var.boot_wait
-  boot_command = var.boot_command
+  boot_wait    = "3s"
+  boot_command = [
+    "<spacebar>"
+  ]
   boot_order   = var.boot_order
 
-  # HTTP Directory Configuration
-  http_directory = var.http_directory
-  http_port_min  = var.http_port_min
-  http_port_max  = var.http_port_max
-
   # Floppy configuration
-  floppy_files = var.config_files
+  floppy_files = [
+    "config/windows-server-2019-desktop",
+    "drivers/pvscsi",
+    "scripts/windows"
+  ]
 
   # Connection Configuration
   vcenter_server      = var.vsphere_server
@@ -23,10 +24,10 @@ source "vsphere-iso" "windows-server-2019-desktop" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = var.hw_firmware
+  firmware        = "efi"
 
   # Location Configuration
-  vm_name   = var.vm_name
+  vm_name   = "packer-windows-server-2019-standard-desktop"
   folder    = var.vsphere_folder
   cluster   = var.vsphere_cluster
   datastore = var.vsphere_datastore
@@ -36,13 +37,13 @@ source "vsphere-iso" "windows-server-2019-desktop" {
 
   # CDRom Configuration
   iso_paths = [
-    var.iso_installer,
-    var.iso_vmtools
+    "[VRDS00] /ISO/Windows/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
+    "[] /vmimages/tools-isoimages/windows.iso"
   ]
 
   # Create Configuration
   vm_version           = var.vm_version
-  guest_os_type        = var.guest_os_type
+  guest_os_type        = "windows2019srv_64Guest"
   notes                = var.notes
   disk_controller_type = var.disk_controller_type
   network_adapters {
@@ -57,19 +58,13 @@ source "vsphere-iso" "windows-server-2019-desktop" {
   # Content Library Import Configuration
   content_library_destination {
     library = var.content_library_destination
-    name    = var.content_library_name
+    name    = "windows-server-2019-standard-desktop"
     destroy = var.content_library_destroy_vm
     ovf     = var.content_library_as_ovf
   }
 
   # Communicator Configuration
-  communicator = var.communicator_type
-
-  # Communicator (SSH) Configuration
-  ssh_username           = var.communicator_username
-  ssh_password           = var.communicator_password
-  ssh_timeout            = var.communicator_timeout
-  ssh_handshake_attempts = var.ssh_handshake_attempts
+  communicator = "winrm"
 
   # Communicator (WinRM) Configuration
   winrm_username = var.communicator_username
@@ -86,7 +81,11 @@ build {
   ]
 
   provisioner "powershell" {
-    scripts = var.script_files
+    scripts = [
+      "scripts/windows/disable-tls.ps1",
+      "scripts/windows/set-temp.ps1",
+      "scripts/windows/install-chocolatey.ps1"
+    ]
   }
 
   post-processor "manifest" {

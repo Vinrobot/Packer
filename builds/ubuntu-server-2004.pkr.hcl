@@ -1,16 +1,22 @@
 source "vsphere-iso" "ubuntu-server-2004" {
   # Boot/Run Configuration
-  boot_wait    = var.boot_wait
-  boot_command = var.boot_command
+  boot_wait    = "5s"
+  boot_command = [
+    "<enter><wait><enter><wait><f6><wait><esc><wait>",
+    "<wait15s>",
+    " autoinstall ds=nocloud-net;",
+    "seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
+    "<enter><wait>"
+  ]
   boot_order   = var.boot_order
 
   # HTTP Directory Configuration
-  http_directory = var.http_directory
+  http_directory = "config/ubuntu-server-20.04"
   http_port_min  = var.http_port_min
   http_port_max  = var.http_port_max
 
   # Floppy configuration
-  floppy_files = var.config_files
+  floppy_files = []
 
   # Connection Configuration
   vcenter_server      = var.vsphere_server
@@ -23,10 +29,10 @@ source "vsphere-iso" "ubuntu-server-2004" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = var.hw_firmware
+  firmware        = "bios"
 
   # Location Configuration
-  vm_name   = var.vm_name
+  vm_name   = "packer-ubuntu-server-20.04"
   folder    = var.vsphere_folder
   cluster   = var.vsphere_cluster
   datastore = var.vsphere_datastore
@@ -36,13 +42,12 @@ source "vsphere-iso" "ubuntu-server-2004" {
 
   # CDRom Configuration
   iso_paths = [
-    var.iso_installer,
-    var.iso_vmtools
+    "[VRDS00] /ISO/Ubuntu/ubuntu-20.04.2-live-server-amd64.iso"
   ]
 
   # Create Configuration
   vm_version           = var.vm_version
-  guest_os_type        = var.guest_os_type
+  guest_os_type        = "ubuntu64Guest"
   notes                = var.notes
   disk_controller_type = var.disk_controller_type
   network_adapters {
@@ -57,24 +62,19 @@ source "vsphere-iso" "ubuntu-server-2004" {
   # Content Library Import Configuration
   content_library_destination {
     library = var.content_library_destination
-    name    = var.content_library_name
+    name    = "ubuntu-server-20.04"
     destroy = var.content_library_destroy_vm
     ovf     = var.content_library_as_ovf
   }
 
   # Communicator Configuration
-  communicator = var.communicator_type
+  communicator = "ssh"
 
   # Communicator (SSH) Configuration
   ssh_username           = var.communicator_username
   ssh_password           = var.communicator_password
   ssh_timeout            = var.communicator_timeout
   ssh_handshake_attempts = var.ssh_handshake_attempts
-
-  # Communicator (WinRM) Configuration
-  winrm_username = var.communicator_username
-  winrm_password = var.communicator_password
-  winrm_timeout  = var.communicator_timeout
 }
 
 build {
@@ -84,7 +84,10 @@ build {
 
   provisioner "shell" {
     execute_command = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
-    scripts         = var.script_files
+    scripts         = [
+      "scripts/debian/install-update.sh",
+      "scripts/debian/install-vmtools.sh",
+    ]
   }
 
   post-processor "manifest" {

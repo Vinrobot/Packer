@@ -35,10 +35,6 @@ variable "vsphere_network_card" {
   default = "vmxnet3"
 }
 
-variable "communicator_type" {
-  type    = string
-  default = "ssh"
-}
 variable "communicator_username" {
   type      = string
   sensitive = true
@@ -56,13 +52,10 @@ variable "communicator_timeout" {
 
 variable "ssh_handshake_attempts" {
   type    = number
-  default = 20
+  default = 50
 }
 
 variable "content_library_destination" {
-  type = string
-}
-variable "content_library_name" {
   type = string
 }
 variable "content_library_destroy_vm" {
@@ -78,18 +71,7 @@ variable "vm_version" {
   type    = number
   default = 17
 }
-variable "vm_template" {
-  type    = string
-  default = null
-}
-variable "vm_name" {
-  type = string
-}
 
-variable "hw_firmware" {
-  type    = string
-  default = "efi"
-}
 variable "hw_cpus" {
   type    = number
   default = 2
@@ -121,22 +103,9 @@ variable "disk_size" {
   default = 61440
 }
 
-variable "boot_wait" {
-  type    = string
-  default = "5s"
-}
-variable "boot_command" {
-  type    = list(string)
-  default = []
-}
 variable "boot_order" {
   type    = string
   default = "disk,cdrom"
-}
-
-variable "guest_os_type" {
-  type    = string
-  default = "otherGuest"
 }
 
 variable "ip_wait_timeout" {
@@ -144,26 +113,6 @@ variable "ip_wait_timeout" {
   default = "1h"
 }
 
-variable "iso_installer" {
-  type    = string
-  default = null
-}
-variable "iso_vmtools" {
-  type    = string
-  default = null
-}
-
-variable "config_files" {
-  type = list(string)
-}
-variable "script_files" {
-  type = list(string)
-}
-
-variable "http_directory" {
-  type    = string
-  default = null
-}
 variable "http_port_min" {
   type    = number
   default = 8000
