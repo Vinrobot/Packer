@@ -1,10 +1,11 @@
 source "vsphere-iso" "centos-server-8" {
   # Boot/Run Configuration
-  boot_wait    = "15s"
+  boot_wait    = "10s"
   boot_command = [
-    "<up><wait><tab><wait>",
+    "<up>e<wait><down><down><end><wait>",
     " inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
-    "<enter><wait>"
+    "<enter><wait>",
+    "<leftCtrlOn>x<leftCtrlOff>"
   ]
   boot_order   = var.boot_order
 
@@ -27,7 +28,7 @@ source "vsphere-iso" "centos-server-8" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "bios"
+  firmware        = "efi"
 
   # Location Configuration
   vm_name   = "packer-centos-server-8"

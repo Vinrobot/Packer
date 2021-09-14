@@ -1,15 +1,15 @@
 source "vsphere-iso" "ubuntu-server-2004-legacy" {
   # Boot/Run Configuration
-  boot_wait    = "12s"
+  boot_wait    = "5s"
   boot_command = [
-    "<wait2s><enter><wait><esc><wait><enter>",
-    "/install/vmlinuz",
-    " initrd=/install/initrd.gz<wait>",
+    "<wait3s>c<wait3s>",
+    "linux /install/vmlinuz",
     " auto-install/enable=true",
     " debconf/priority=critical",
     " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-    " -- <wait>",
-    "<enter><wait>"
+    " --<enter>",
+    "initrd /install/initrd.gz<enter>",
+    "boot<enter>"
   ]
   boot_order   = var.boot_order
 
@@ -32,7 +32,7 @@ source "vsphere-iso" "ubuntu-server-2004-legacy" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "bios"
+  firmware        = "efi"
 
   # Location Configuration
   vm_name   = "packer-ubuntu-server-20.04-legacy"

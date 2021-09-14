@@ -1,12 +1,13 @@
 source "vsphere-iso" "ubuntu-server-2004" {
   # Boot/Run Configuration
-  boot_wait    = "5s"
+  boot_wait    = "3s"
   boot_command = [
-    "<enter><wait><enter><wait><f6><wait><esc><wait>",
-    "<wait15s>",
-    " autoinstall ds=nocloud-net;",
-    "seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/",
-    "<enter><wait>"
+    "<esc><esc><esc>",
+    "linux /casper/vmlinuz",
+    " \"ds=nocloud-net;seedfrom=http://{{ .HTTPIP }}:{{ .HTTPPort }}/\"",
+    " autoinstall ---<enter>",
+    "initrd /casper/initrd<enter>",
+    "boot<enter>"
   ]
   boot_order   = var.boot_order
 
@@ -29,7 +30,7 @@ source "vsphere-iso" "ubuntu-server-2004" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "bios"
+  firmware        = "efi"
 
   # Location Configuration
   vm_name   = "packer-ubuntu-server-20.04"
@@ -83,8 +84,9 @@ build {
   ]
 
   provisioner "shell" {
-    execute_command = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
-    scripts         = [
+    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
+    execute_command  = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
+    scripts          = [
       "scripts/debian/install-update.sh",
       "scripts/debian/install-vmtools.sh",
     ]

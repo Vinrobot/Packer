@@ -2,14 +2,14 @@ source "vsphere-iso" "debian-server-11" {
   # Boot/Run Configuration
   boot_wait    = "5s"
   boot_command = [
-    "<wait3s><esc><wait3s>",
-    "/install.amd/vmlinuz",
-    " initrd=/install.amd/initrd.gz<wait>",
+    "<wait3s>c<wait3s>",
+    "linux /install.amd/vmlinuz",
     " auto-install/enable=true",
     " debconf/priority=critical",
     " url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-    " -- <wait>",
-    "<enter><wait>"
+    " noprompt --<enter>",
+    "initrd /install.amd/initrd.gz<enter>",
+    "boot<enter>"
   ]
   boot_order   = var.boot_order
 
@@ -32,7 +32,7 @@ source "vsphere-iso" "debian-server-11" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "bios"
+  firmware        = "efi"
 
   # Location Configuration
   vm_name   = "packer-debian-server-11"
@@ -86,9 +86,7 @@ build {
   ]
 
   provisioner "shell" {
-    environment_vars = [
-      "DEBIAN_FRONTEND=noninteractive"
-    ]
+    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
     execute_command  = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
     scripts          = [
       "scripts/debian/install-update.sh",
