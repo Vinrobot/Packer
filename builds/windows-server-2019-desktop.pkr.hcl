@@ -24,7 +24,7 @@ source "vsphere-iso" "windows-server-2019-desktop" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "efi"
+  firmware        = var.hw_firmware
 
   # Location Configuration
   vm_name   = "packer-windows-server-2019-standard-desktop"

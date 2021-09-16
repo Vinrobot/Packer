@@ -84,6 +84,15 @@ variable "hw_ram_reserve_all" {
   type    = bool
   default = true
 }
+variable "hw_firmware" {
+  type    = string
+  default = "efi-secure"
+  validation {
+    # Only allow EFI or EFI with Secure Boot. No BIOS allowed here.
+    condition     = var.hw_firmware == "efi" || var.hw_firmware == "efi-secure"
+    error_message = "'hw_firmware' must be 'efi' or 'efi-secure'."
+  }
+}
 
 variable "notes" {
   type    = string

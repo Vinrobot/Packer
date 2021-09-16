@@ -28,7 +28,7 @@ source "vsphere-iso" "centos-server-8" {
   CPUs            = var.hw_cpus
   RAM             = var.hw_ram
   RAM_reserve_all = var.hw_ram_reserve_all
-  firmware        = "efi"
+  firmware        = var.hw_firmware
 
   # Location Configuration
   vm_name   = "packer-centos-server-8"
