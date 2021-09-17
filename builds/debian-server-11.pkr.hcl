@@ -79,26 +79,3 @@ source "vsphere-iso" "debian-server-11" {
   ssh_timeout            = var.communicator_timeout
   ssh_handshake_attempts = var.ssh_handshake_attempts
 }
-
-build {
-  name = "base"
-
-  sources = [
-    "source.vsphere-iso.debian-server-11"
-  ]
-
-  provisioner "shell" {
-    environment_vars = ["DEBIAN_FRONTEND=noninteractive"]
-    execute_command  = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
-    scripts          = [
-      "scripts/debian/install-update.sh",
-      "scripts/debian/install-vmtools.sh",
-    ]
-  }
-
-  post-processor "manifest" {
-    output     = "manifests/base.${source.type}.${source.name}.json"
-    strip_path = false
-    strip_time = false
-  }
-}

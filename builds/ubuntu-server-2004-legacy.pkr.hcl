@@ -79,25 +79,3 @@ source "vsphere-iso" "ubuntu-server-2004-legacy" {
   ssh_timeout            = var.communicator_timeout
   ssh_handshake_attempts = var.ssh_handshake_attempts
 }
-
-build {
-  name = "base"
-
-  sources = [
-    "source.vsphere-iso.ubuntu-server-2004-legacy"
-  ]
-
-  provisioner "shell" {
-    execute_command = "echo '${var.communicator_password}' | sudo -S -E '{{ .Path }}'"
-    scripts         = [
-      "scripts/debian/install-update.sh",
-      "scripts/debian/install-vmtools.sh",
-    ]
-  }
-
-  post-processor "manifest" {
-    output     = "manifests/base.${source.type}.${source.name}.json"
-    strip_path = false
-    strip_time = false
-  }
-}

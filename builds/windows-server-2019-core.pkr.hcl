@@ -74,25 +74,3 @@ source "vsphere-iso" "windows-server-2019-core" {
   winrm_use_ssl  = true
   winrm_use_ntlm = true
 }
-
-build {
-  name = "base"
-
-  sources = [
-    "source.vsphere-iso.windows-server-2019-core"
-  ]
-
-  provisioner "powershell" {
-    scripts = [
-      "scripts/windows/disable-tls.ps1",
-      "scripts/windows/set-temp.ps1",
-      "scripts/windows/install-chocolatey.ps1"
-    ]
-  }
-
-  post-processor "manifest" {
-    output     = "manifests/base.${source.type}.${source.name}.json"
-    strip_path = false
-    strip_time = false
-  }
-}
