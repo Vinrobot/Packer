@@ -76,6 +76,8 @@ source "vsphere-iso" "windows-server-2019-desktop" {
 }
 
 build {
+  name = "base"
+
   sources = [
     "source.vsphere-iso.windows-server-2019-desktop"
   ]
@@ -89,7 +91,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/windows-server-2019-desktop.json"
+    output     = "manifests/base.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }

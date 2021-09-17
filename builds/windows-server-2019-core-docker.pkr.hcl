@@ -41,6 +41,8 @@ source "vsphere-clone" "windows-server-2019-core-docker" {
 }
 
 build {
+  name = "docker"
+
   sources = [
     "source.vsphere-clone.windows-server-2019-core-docker"
   ]
@@ -52,7 +54,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/windows-server-2019-core-docker.json"
+    output     = "manifests/docker.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }

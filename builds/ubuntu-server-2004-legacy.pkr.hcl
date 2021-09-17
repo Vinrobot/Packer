@@ -81,6 +81,8 @@ source "vsphere-iso" "ubuntu-server-2004-legacy" {
 }
 
 build {
+  name = "base"
+
   sources = [
     "source.vsphere-iso.ubuntu-server-2004-legacy"
   ]
@@ -94,7 +96,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/ubuntu-server-2004-legacy.json"
+    output     = "manifests/base.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }

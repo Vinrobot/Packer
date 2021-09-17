@@ -77,6 +77,8 @@ source "vsphere-iso" "centos-server-8" {
 }
 
 build {
+  name = "base"
+
   sources = [
     "source.vsphere-iso.centos-server-8"
   ]
@@ -90,7 +92,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/centos-server-8.json"
+    output     = "manifests/base.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }

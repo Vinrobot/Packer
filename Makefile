@@ -9,7 +9,7 @@ all: init
 build-%: $(SRC)/%.pkr.hcl init
 	$(PACKER) build \
 		-var-file=vsphere.pkrvars.hcl \
-		-only=vsphere-*.$(patsubst build-%,%,$@) \
+		-only=*.vsphere-*.$(patsubst build-%,%,$@) \
 		$(PFLAGS) $(SRC)
 
 validate: init
