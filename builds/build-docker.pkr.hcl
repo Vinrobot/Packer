@@ -17,7 +17,8 @@ build {
 
   provisioner "powershell" {
     scripts = [
-      "scripts/windows/install-docker.ps1"
+      "scripts/windows/install-docker.ps1",
+      "scripts/windows/install-compose.ps1",
     ]
   }
 
@@ -46,10 +47,11 @@ build {
   }
 
   provisioner "shell" {
-    execute_command  = "chmod +x {{ .Path }}; echo '${var.communicator_password}' | {{ .Vars }} sudo -S -E '{{ .Path }}'"
-    scripts          = [
+    execute_command = "chmod +x {{ .Path }}; echo '${var.communicator_password}' | {{ .Vars }} sudo -S -E '{{ .Path }}'"
+    scripts = [
       "scripts/linux/get-docker.sh",
-      "scripts/linux/setup-docker.sh"
+      "scripts/linux/setup-docker.sh",
+      "scripts/linux/install-compose.sh",
     ]
   }
 
