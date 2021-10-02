@@ -1,10 +1,10 @@
 source "vsphere-iso" "windows-server-2019-desktop" {
   # Boot/Run Configuration
-  boot_wait    = "3s"
+  boot_wait = "3s"
   boot_command = [
     "<spacebar>"
   ]
-  boot_order   = var.boot_order
+  boot_order = var.boot_order
 
   # Floppy configuration
   floppy_files = [

@@ -1,13 +1,13 @@
 source "vsphere-iso" "centos-server-8" {
   # Boot/Run Configuration
-  boot_wait    = "10s"
+  boot_wait = "10s"
   boot_command = [
     "<up>e<wait><down><down><end><wait>",
     " inst.text inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg",
     "<enter><wait>",
     "<leftCtrlOn>x<leftCtrlOff>"
   ]
-  boot_order   = var.boot_order
+  boot_order = var.boot_order
 
   # HTTP Directory Configuration
   http_directory = "config/centos-server-8"

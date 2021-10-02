@@ -1,6 +1,6 @@
 source "vsphere-iso" "debian-server-11" {
   # Boot/Run Configuration
-  boot_wait    = "5s"
+  boot_wait = "5s"
   boot_command = [
     "<wait3s>c<wait3s>",
     "linux /install.amd/vmlinuz",
@@ -11,7 +11,7 @@ source "vsphere-iso" "debian-server-11" {
     "initrd /install.amd/initrd.gz<enter>",
     "boot<enter>"
   ]
-  boot_order   = var.boot_order
+  boot_order = var.boot_order
 
   # HTTP Directory Configuration
   http_directory = "config/debian-server-11"

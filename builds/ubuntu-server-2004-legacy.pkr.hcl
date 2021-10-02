@@ -1,6 +1,6 @@
 source "vsphere-iso" "ubuntu-server-2004-legacy" {
   # Boot/Run Configuration
-  boot_wait    = "5s"
+  boot_wait = "5s"
   boot_command = [
     "<wait3s>c<wait3s>",
     "linux /install/vmlinuz",
@@ -11,7 +11,7 @@ source "vsphere-iso" "ubuntu-server-2004-legacy" {
     "initrd /install/initrd.gz<enter>",
     "boot<enter>"
   ]
-  boot_order   = var.boot_order
+  boot_order = var.boot_order
 
   # HTTP Directory Configuration
   http_directory = "config/ubuntu-server-20.04-legacy"

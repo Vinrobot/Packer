@@ -1,6 +1,6 @@
 source "vsphere-iso" "ubuntu-server-2004" {
   # Boot/Run Configuration
-  boot_wait    = "3s"
+  boot_wait = "3s"
   boot_command = [
     "<esc><esc><esc>",
     "linux /casper/vmlinuz",
@@ -9,7 +9,7 @@ source "vsphere-iso" "ubuntu-server-2004" {
     "initrd /casper/initrd<enter>",
     "boot<enter>"
   ]
-  boot_order   = var.boot_order
+  boot_order = var.boot_order
 
   # HTTP Directory Configuration
   http_directory = "config/ubuntu-server-20.04"
