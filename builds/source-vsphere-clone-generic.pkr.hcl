@@ -1,4 +1,4 @@
-source "vsphere-clone" "windows-server-2019-core-docker" {
+source "vsphere-clone" "generic" {
   # Connection Configuration
   vcenter_server      = var.vsphere_server
   username            = var.vsphere_username
@@ -7,7 +7,7 @@ source "vsphere-clone" "windows-server-2019-core-docker" {
   datacenter          = var.vsphere_datacenter
 
   # Location Configuration
-  vm_name   = "packer-windows-server-2019-standard-core-docker"
+  #vm_name   = SET IN BUILD SOURCE
   folder    = var.vsphere_folder
   cluster   = var.vsphere_cluster
   datastore = var.vsphere_datastore
@@ -16,20 +16,20 @@ source "vsphere-clone" "windows-server-2019-core-docker" {
   ip_wait_timeout = var.ip_wait_timeout
 
   # Clone Configuration
-  template = "packer-windows-server-2019-standard-core"
-  network  = var.vsphere_portgroup
-  notes    = var.notes
+  #template = SET IN BUILD SOURCE
+  network = var.vsphere_portgroup
+  notes   = var.notes
 
   # Content Library Import Configuration
   content_library_destination {
     library = var.content_library_destination
-    name    = "windows-server-2019-standard-core-docker"
+    #name    = Default to vm_name
     destroy = var.content_library_destroy_vm
     ovf     = var.content_library_as_ovf
   }
 
   # Communicator Configuration
-  communicator = "winrm"
+  #communicator = SET IN BUILD SOURCE
 
   # Communicator (WinRM) Configuration
   winrm_username = var.communicator_username
@@ -38,4 +38,10 @@ source "vsphere-clone" "windows-server-2019-core-docker" {
   winrm_insecure = true
   winrm_use_ssl  = true
   winrm_use_ntlm = true
+
+  # Communicator (SSH) Configuration
+  ssh_username           = var.communicator_username
+  ssh_password           = var.communicator_password
+  ssh_timeout            = var.communicator_timeout
+  ssh_handshake_attempts = var.ssh_handshake_attempts
 }

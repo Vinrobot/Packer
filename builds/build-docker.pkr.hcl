@@ -1,9 +1,19 @@
 build {
   name = "docker"
 
-  sources = [
-    "source.vsphere-clone.windows-server-2019-core-docker"
-  ]
+  source "source.vsphere-clone.generic" {
+    name         = "windows-server-2019-core-docker"
+    vm_name      = "packer-windows-server-2019-standard-core-docker"
+    template     = "packer-windows-server-2019-standard-core"
+    communicator = "winrm"
+  }
+
+  source "source.vsphere-clone.generic" {
+    name         = "windows-server-2019-desktop-docker"
+    vm_name      = "packer-windows-server-2019-standard-desktop-docker"
+    template     = "packer-windows-server-2019-standard-desktop"
+    communicator = "winrm"
+  }
 
   provisioner "powershell" {
     scripts = [
@@ -21,9 +31,19 @@ build {
 build {
   name = "docker"
 
-  sources = [
-    "source.vsphere-clone.debian-server-11-docker"
-  ]
+  source "source.vsphere-clone.generic" {
+    name         = "debian-server-11-docker"
+    vm_name      = "packer-debian-server-11-docker"
+    template     = "packer-debian-server-11"
+    communicator = "ssh"
+  }
+
+  source "source.vsphere-clone.generic" {
+    name         = "centos-server-8-docker"
+    vm_name      = "packer-centos-server-8-docker"
+    template     = "packer-centos-server-8"
+    communicator = "ssh"
+  }
 
   provisioner "shell" {
     execute_command  = "chmod +x {{ .Path }}; echo '${var.communicator_password}' | {{ .Vars }} sudo -S -E '{{ .Path }}'"

@@ -12,6 +12,12 @@ build-%: $(SRC)/%.pkr.hcl init
 		-only=*.vsphere-*.$(patsubst build-%,%,$@) \
 		$(PFLAGS) $(SRC)
 
+build-%-docker: init
+	$(PACKER) build \
+		-var-file=vsphere.pkrvars.hcl \
+		-only=docker.vsphere-*.$(patsubst build-%,%,$@) \
+		$(PFLAGS) $(SRC)
+
 validate: init
 	$(PACKER) validate \
 		-var-file=vsphere.pkrvars.hcl \
