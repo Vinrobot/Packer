@@ -58,6 +58,7 @@ build {
     scripts = [
       "scripts/centos/install-update.sh",
       "scripts/centos/install-vmtools.sh",
+      "scripts/centos/sysprep.sh",
     ]
   }
 
