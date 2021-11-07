@@ -23,7 +23,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/docker.${source.type}.${source.name}.json"
+    output     = "manifests/${build.name}.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }
@@ -56,7 +56,7 @@ build {
   }
 
   post-processor "manifest" {
-    output     = "manifests/docker.${source.type}.${source.name}.json"
+    output     = "manifests/${build.name}.${source.type}.${source.name}.json"
     strip_path = false
     strip_time = false
   }
