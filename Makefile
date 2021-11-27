@@ -30,9 +30,9 @@ validate: init
 		$(PFLAGS) $(SRC)
 
 format: init
-	$(PACKER) fmt $(PFLAGS) $(SRC)
+	$(PACKER) fmt $(SRC)
 
 init:
-	$(PACKER) init $(PFLAGS) $(SRC)
+	$(PACKER) init $(SRC)
 
-.PHONY: init format all
+.PHONY: init format validate all
