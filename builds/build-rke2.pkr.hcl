@@ -27,8 +27,14 @@ build {
   }
 
   provisioner "shell" {
-    execute_command = "chmod +x {{ .Path }}; echo '${var.communicator_password}' | {{ .Vars }} sudo -S -E '{{ .Path }}'"
+    environment_vars = [
+      "USE_SUDO=false",
+      "VERIFY_SIGNATURES=true",
+      "PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin",
+    ]
+    execute_command = "chmod +x {{ .Path }}; echo '${var.communicator_password}' | sudo -S -E bash -c '{{ .Vars }} \"{{ .Path }}\"'"
     scripts = [
+      "scripts/linux/get_helm.sh",
       "scripts/centos/sysprep.sh",
     ]
   }
