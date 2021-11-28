@@ -1,4 +1,6 @@
 source "vsphere-clone" "generic" {
+  create_snapshot = var.create_snapshot
+
   # Connection Configuration
   vcenter_server      = var.vsphere_server
   username            = var.vsphere_username

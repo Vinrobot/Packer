@@ -130,3 +130,8 @@ variable "http_port_max" {
   type    = number
   default = 9000
 }
+
+variable "create_snapshot" {
+  type    = bool
+  default = true
+}

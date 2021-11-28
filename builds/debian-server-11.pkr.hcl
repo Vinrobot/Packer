@@ -1,4 +1,6 @@
 source "vsphere-iso" "debian-server-11" {
+  create_snapshot = var.create_snapshot
+
   # Boot/Run Configuration
   boot_wait = "5s"
   boot_command = [
@@ -45,7 +47,7 @@ source "vsphere-iso" "debian-server-11" {
 
   # CDRom Configuration
   iso_paths = [
-    "[VRDS00] /ISO/Debian/debian-11.0.0-amd64-netinst.iso"
+    "[VRDS00] /ISO/Debian/debian-11.1.0-amd64-netinst.iso"
   ]
 
   # Create Configuration
@@ -65,7 +67,7 @@ source "vsphere-iso" "debian-server-11" {
   # Content Library Import Configuration
   content_library_destination {
     library = var.content_library_destination
-    name    = "debian-server-11"
+    #name    = Default to vm_name
     destroy = var.content_library_destroy_vm
     ovf     = var.content_library_as_ovf
   }

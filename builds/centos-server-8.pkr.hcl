@@ -1,4 +1,6 @@
 source "vsphere-iso" "centos-server-8" {
+  create_snapshot = var.create_snapshot
+
   # Boot/Run Configuration
   boot_wait = "10s"
   boot_command = [
@@ -61,7 +63,7 @@ source "vsphere-iso" "centos-server-8" {
   # Content Library Import Configuration
   content_library_destination {
     library = var.content_library_destination
-    name    = "centos-server-8"
+    #name    = Default to vm_name
     destroy = var.content_library_destroy_vm
     ovf     = var.content_library_as_ovf
   }
