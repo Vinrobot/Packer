@@ -24,6 +24,12 @@ build-%-rke2: init
 		-only=rke2.vsphere-*.$(patsubst build-%,%,$@) \
 		$(PFLAGS) $(SRC)
 
+build-%-pgsql: init
+	$(PACKER) build \
+		-var-file=vsphere.pkrvars.hcl \
+		-only=postgresql.vsphere-*.$(patsubst build-%,%,$@) \
+		$(PFLAGS) $(SRC)
+
 validate: init
 	$(PACKER) validate \
 		-var-file=vsphere.pkrvars.hcl \
