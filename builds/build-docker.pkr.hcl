@@ -18,7 +18,6 @@ build {
   provisioner "powershell" {
     scripts = [
       "scripts/windows/install-docker.ps1",
-      "scripts/windows/install-compose.ps1",
     ]
   }
 
@@ -51,7 +50,6 @@ build {
     scripts = [
       "scripts/linux/get-docker.sh",
       "scripts/linux/setup-docker.sh",
-      "scripts/linux/install-compose.sh",
     ]
   }
 
